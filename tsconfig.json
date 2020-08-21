@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "sourceMap": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "types": ["reflect-metadata", "webpack-env", "jest"],
+    "paths": {
+      "@Domain/*": ["./Application/Domain/*"],
+      "@Utils/*": ["./Application/Utils/*"],
+      "@System/*": ["Application/System/*"],
+      "~/*": ["./*"],
+      "@/*": ["./*"]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost",
+      "esnext.asynciterable"
+    ]
+  },
+  "exclude": ["node_modules"]
+}
