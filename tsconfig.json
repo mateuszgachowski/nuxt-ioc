@@ -1,11 +1,20 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": ["es6", "dom"],
+    "types": ["reflect-metadata", "node", "jest"],
     "module": "commonjs",
     "outDir": "./lib",
     "strict": true,
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "declaration": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": ["node_modules", "src/System"]
 }
