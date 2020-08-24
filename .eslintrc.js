@@ -1,13 +1,11 @@
 module.exports = {
-  root: true,
+  extends: ['@nuxtjs'],
   parserOptions: {
+    ecmaFeatures: {
+      legacyDecorators: true,
+    },
     parser: 'babel-eslint',
     sourceType: 'module',
-    ecmaFeatures: {
-      legacyDecorators: true
-    }
   },
-  extends: [
-    '@nuxtjs'
-  ]
-}
+  root: true,
+};
