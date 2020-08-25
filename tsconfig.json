@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2019",
     "lib": ["es6", "dom"],
     "types": ["reflect-metadata", "node", "jest"],
     "module": "commonjs",
