@@ -45,17 +45,14 @@ export default class StateSerializer {
    * @param serviceKey key of service that was used with @Serialize() decorator
    * @return true if that service exists, false otherwise
    */
-  public hasSerializableKey(
-    service: ISerializableObject,
-    serviceKey: string,
-  ): boolean {
+  public hasSerializableKey(service: ISerializableObject, serviceKey: string): boolean {
     // if this service does not have any observables, return false
     if (!service.__observables) {
       return false;
     }
 
     // return if service has this key
-    return service.__observables.some(entry => entry.serviceKey === serviceKey);
+    return service.__observables.some((entry) => entry.serviceKey === serviceKey);
   }
 
   /**
@@ -77,10 +74,7 @@ export default class StateSerializer {
     const result: ISerializedState = {};
 
     // serialize all container services + instances we registered with addCustomSerializable()
-    const toSerializeServices = [
-      ...container.getAllServices(),
-      ...this.fManualSerializableClasses,
-    ];
+    const toSerializeServices = [...container.getAllServices(), ...this.fManualSerializableClasses];
 
     // iterate over all services and serialize them
     toSerializeServices.forEach((service: ISerializableObject) => {
@@ -89,10 +83,7 @@ export default class StateSerializer {
 
     if (process.server && !(process.env.NODE_ENV === 'production')) {
       const size = Buffer.byteLength(JSON.stringify(result), 'utf-8');
-      console.log(
-        'InitialState',
-        `Size of serialized initial state: ${size / 1000}kb`,
-      );
+      console.log('InitialState', `Size of serialized initial state: ${size / 1000}kb`);
     }
 
     return result;
@@ -115,10 +106,7 @@ export default class StateSerializer {
    * @param service service class instance to serialize
    * @param result result object to append data
    */
-  public serializeService(
-    service: ISerializableObject,
-    result: ISerializedState,
-  ): void {
+  public serializeService(service: ISerializableObject, result: ISerializedState): void {
     // if this service does not contain any @Serializable decorator, skip it
     if (!service.__observables) {
       return;
@@ -136,9 +124,7 @@ export default class StateSerializer {
 
       // if we already have this value defined, its name conflict and we throw
       if (result[key][propertyName]) {
-        throw new Error(
-          `StateSerializer.serializeService() - conflicting @Serializable() key: ${key}`,
-        );
+        throw new Error(`StateSerializer.serializeService() - conflicting @Serializable() key: ${key}`);
       }
 
       // store property for that service
@@ -151,10 +137,7 @@ export default class StateSerializer {
    * @param service service to potentailly unserialize
    * @param state global state object
    */
-  public unserializeService(
-    service: ISerializableObject,
-    state: ISerializedState,
-  ): void {
+  public unserializeService(service: ISerializableObject, state: ISerializedState): void {
     // if this service does not contain any @Serializable decorator, skip it
     if (!service.__observables) {
       return;
