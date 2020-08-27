@@ -23,7 +23,6 @@
  */
 
 import { remove } from 'lodash';
-import 'reflect-metadata';
 import Injectable from './Injectable';
 
 // any type

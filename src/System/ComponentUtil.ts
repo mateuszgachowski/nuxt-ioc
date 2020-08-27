@@ -3,14 +3,7 @@
 /* eslint-disable no-invalid-this */
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'reflect-metadata';
-import Vue, {
-  ComponentOptions,
-  PropOptions,
-  Component,
-  AsyncComponent,
-  WatchOptions,
-} from 'vue';
+import Vue, { ComponentOptions, PropOptions, Component, AsyncComponent, WatchOptions } from 'vue';
 import _merge from 'lodash/merge';
 import { initializeDecorators, destroyDecorators } from './Decorators';
 import Injectable from './Injectable';
@@ -24,12 +17,8 @@ import StateSerializer from './StateSerializer';
  * @returns type of property
  */
 function getReflectionType(target: BaseComponent, propName: string): any {
-  const isReflectionSupported =
-    typeof Reflect !== 'undefined' &&
-    typeof Reflect.getMetadata !== 'undefined';
-  return isReflectionSupported
-    ? Reflect.getMetadata('design:type', target, propName)
-    : undefined;
+  const isReflectionSupported = typeof Reflect !== 'undefined' && typeof Reflect.getMetadata !== 'undefined';
+  return isReflectionSupported ? Reflect.getMetadata('design:type', target, propName) : undefined;
 }
 
 /**
@@ -67,9 +56,7 @@ function getClassOfTarget(target: any): any {
  * @param options options for property, compatabile with vue property options
  * @returns decorator function
  */
-export function Prop<T extends BaseComponent>(
-  options: PropOptions = {},
-): Function {
+export function Prop<T extends BaseComponent>(options: PropOptions = {}): Function {
   return function decorator(target: T, propertyName: string) {
     const reflectionType = getReflectionType(target, propertyName);
     if (!options.type && reflectionType) {
@@ -122,12 +109,8 @@ export function RouterParam<T extends BaseComponent>(key?: string): Function {
     Object.defineProperty(target, paramName, {
       get(): any {
         const currentParamName = key || paramName;
-        const {
-          params = { [currentParamName]: '' },
-        } = (this as any).$vue.$route;
-        return currentParamName === 'params'
-          ? params
-          : params[currentParamName];
+        const { params = { [currentParamName]: '' } } = (this as any).$vue.$route;
+        return currentParamName === 'params' ? params : params[currentParamName];
       },
     });
   };
@@ -155,9 +138,7 @@ export function RouterQuery<T extends BaseComponent>(key?: string): Function {
     Object.defineProperty(target, paramName, {
       get(): any {
         const currentQueryName = key || paramName;
-        const {
-          query = { [currentQueryName]: '' },
-        } = (this as any).$vue.$route;
+        const { query = { [currentQueryName]: '' } } = (this as any).$vue.$route;
         return currentQueryName === 'query' ? query : query[currentQueryName];
       },
     });
@@ -185,10 +166,7 @@ export function RouterQuery<T extends BaseComponent>(key?: string): Function {
  * @param {WatchOptions} options vue watch options
  * @returns decorator function
  */
-export function Watch<T extends BaseComponent>(
-  propertyName: string,
-  options: WatchOptions = {},
-): Function {
+export function Watch<T extends BaseComponent>(propertyName: string, options: WatchOptions = {}): Function {
   const { deep = false, immediate = false } = options;
 
   return function decorator(target: T, handler: void) {
@@ -228,9 +206,7 @@ export function Meta<T extends BaseComponent>(): Function {
     const classOfTarget: any = getClassOfTarget(target);
 
     if (typeof classOfTarget.__options.head !== 'undefined') {
-      throw new TypeError(
-        'Error in @Meta decorator: decorator was used twice in same class.',
-      );
+      throw new TypeError('Error in @Meta decorator: decorator was used twice in same class.');
     }
 
     classOfTarget.__options.head = function internalHandler() {
@@ -275,9 +251,7 @@ export function Ref<T extends BaseComponent>(key: string): Function {
   };
 }
 
-type ComponentDef =
-  | Component<any, any, any, any>
-  | AsyncComponent<any, any, any, any>;
+type ComponentDef = Component<any, any, any, any> | AsyncComponent<any, any, any, any>;
 
 /**
  * This decorator allows to import external components in BaseComponent instance.
@@ -293,9 +267,7 @@ type ComponentDef =
  * @param components object with component definitions
  * @returns decorator function
  */
-export function Components<T extends BaseComponent>(
-  components: Record<string, ComponentDef>,
-): Function {
+export function Components<T extends BaseComponent>(components: Record<string, ComponentDef>): Function {
   return function decorator(target: T) {
     const classOfTarget: any = getClassOfTarget(target);
     classOfTarget.__options.components = {
@@ -364,16 +336,13 @@ export const $internalHooks = [
  * @param __options all options from vue base component class
  * @returns Vue component
  */
-function extractMethodsAndProperties(
-  proto: any,
-  __options: any,
-): Record<string, any> {
+function extractMethodsAndProperties(proto: any, __options: any): Record<string, any> {
   // this is vue options
   const options: any = {};
 
   // iterate over class properties
   // eslint-disable-next-line complexity
-  Object.getOwnPropertyNames(proto).forEach(key => {
+  Object.getOwnPropertyNames(proto).forEach((key) => {
     // ignore constructor
     if (key === 'constructor' || __options.props[key]) {
       return;
@@ -456,8 +425,8 @@ function collectData(instance: any): Record<string, any> {
 
   // iterate over instance properties, filtering out blacklisted ones
   Object.getOwnPropertyNames(instance)
-    .filter(key => !blacklist.includes(key))
-    .forEach(key => {
+    .filter((key) => !blacklist.includes(key))
+    .forEach((key) => {
       // get initial value and store it in result object
       const initialValue: any = instance[key];
       resultObject[key] = initialValue;
@@ -505,10 +474,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
   // merge computed properties
   const computed = _merge(
     (classType as any).__options,
-    extractMethodsAndProperties(
-      classType.prototype,
-      (classType as any).__options,
-    ),
+    extractMethodsAndProperties(classType.prototype, (classType as any).__options),
   );
 
   // prepare Vue options object
@@ -554,8 +520,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       // IOC container is always saved in Vue root component; here we are going to
       // fetch the container and use it to create instance of our class
 
-      const container: Container =
-        this.$root.__container || this.$root._provided.__container;
+      const container: Container = this.$root.__container || this.$root._provided.__container;
 
       // save method to get component instance in other parts of logic
       this.getComponentInstance = function getComponentInstance() {
@@ -579,10 +544,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       const stateSerializer = container.get(StateSerializer);
       if (process.client) {
         // simply unserialize the service on frontend
-        stateSerializer.unserializeService(
-          classInstance,
-          stateSerializer.getSerializedState(),
-        );
+        stateSerializer.unserializeService(classInstance, stateSerializer.getSerializedState());
       } else {
         // on backend simply add this instance to serializable list, so it will appear serialized on frontend
         stateSerializer.addCustomSerializable(classInstance);
