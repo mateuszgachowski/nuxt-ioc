@@ -524,15 +524,17 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       const container: Container = this.$root.__container || this.$root._provided.__container;
 
       // save method to get component instance in other parts of logic
-      this.getComponentInstance = function getComponentInstance() {
-        return container.resolve(classType) as any;
+      this.getComponentInstance = () => {
+        const instance = container.resolve(classType) as any;
+
+        // save real vue instance as $vue property in class instance (see BaseComponent class)
+        instance.$vue = this;
+
+        return instance;
       };
 
       // create instance of class component using IOC container to make injects, etc. work
       const classInstance = this.getComponentInstance();
-
-      // save real vue instance as $vue property in class instance (see BaseComponent class)
-      classInstance.$vue = this;
 
       // collect data from class instance, its here because class must be constructed before
       // we can do it

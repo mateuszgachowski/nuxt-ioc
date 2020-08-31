@@ -1,8 +1,8 @@
 import { resolve } from 'path';
 import Inject from './System/Inject';
 import Injectable from './System/Injectable';
-import { BaseDecorator, initializeContainer } from './System/Decorators';
-import Events from './System/Events';
+import { BaseDecorator, initializeContainer, createDecorator, destroyContainer } from './System/Decorators';
+import Events, { IEventType, IEventId } from './System/Events';
 import StateSerializer from './System/StateSerializer';
 import { Serializable } from './System/VueUtil';
 import { BaseComponent, Prop, Meta, Components, factory } from './System/ComponentUtil';
@@ -21,7 +21,7 @@ export = {
   Injectable,
   BaseDecorator,
   BaseComponent,
-  Events,
+  Events: (Events as unknown) as Events,
   Prop,
   Meta,
   Listen,
@@ -30,6 +30,8 @@ export = {
   Serializable,
   Components,
   initializeContainer,
+  createDecorator,
+  destroyContainer,
   factory,
   NuxtIocModule,
   BeforeFrontRenderEvent,
@@ -41,8 +43,8 @@ function NuxtIocModule(this: IModuleContext, moduleOptions: IModuleOptions) {
   const options = {
     // @ts-ignore
     containerPath: '~/Application/container',
-    coreModule: 'nuxt-ioc',
-    // coreModule: '../../',
+    // coreModule: 'nuxt-ioc',
+    coreModule: '../../',
     ...moduleOptions,
   };
   this.addPlugin({
