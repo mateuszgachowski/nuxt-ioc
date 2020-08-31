@@ -298,6 +298,14 @@ export class BaseComponent {
   }
 
   /**
+   * Returns array containing this component child components.
+   * @return {Array} BaseComponent
+   */
+  public getChildren(): BaseComponent[] {
+    return this.$vue.$children.map((c: any) => c.getComponentInstance());
+  }
+
+  /**
    * Vue emit event
    * @param {String} eventType name of event to emit
    * @param {Array} args arguments for event

@@ -6,6 +6,7 @@
     "module": "esnext",
     "outDir": "./lib",
     "strict": true,
+    "allowJs": true,
     "typeRoots": ["./node_modules/@types"],
     "moduleResolution": "node",
     "experimentalDecorators": true,
