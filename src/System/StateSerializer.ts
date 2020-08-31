@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { IObservedClass } from './VueUtil';
 import Injectable from './Injectable';
 import Container from './Container';
@@ -163,6 +164,7 @@ export default class StateSerializer {
    * @returns raw state
    */
   public retrieveState(): ISerializedState {
+    console.log(window, process.client, (window as any).__NUXT__);
     return (window as any).__NUXT__.iocState;
   }
 
@@ -180,8 +182,11 @@ export default class StateSerializer {
       // Set state to class property
       this.state = this.retrieveState();
 
+      console.log(this.state.iocState);
+
       return this.state;
     } catch (error) {
+      console.log(error);
       console.error('State', 'Cannot serialize state');
 
       // On error clear the state to prevent any conflicts

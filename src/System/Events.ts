@@ -21,7 +21,7 @@
  *
  * Everything 100% typechecked.
  */
-
+import 'reflect-metadata';
 import { remove } from 'lodash';
 import Injectable from './Injectable';
 
@@ -30,7 +30,7 @@ import Injectable from './Injectable';
 type IUnknown = any;
 
 // holds an event class, eg. ECylinderSelected is that
-type IEventType<T> = new () => T;
+export type IEventType<T> = new () => T;
 
 // holds data of an event class
 export type IEventData<T> = {

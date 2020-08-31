@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-
+import 'reflect-metadata';
 import Container from './Container';
 import Injectable from './Injectable';
 

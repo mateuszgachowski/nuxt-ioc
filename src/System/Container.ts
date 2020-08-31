@@ -6,7 +6,7 @@
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import 'reflect-metadata';
 import * as Inversify from 'inversify';
 
 export type IOnConstructEventHandler = (service: object) => void;
@@ -48,9 +48,7 @@ class Container {
    */
   constructor(params?: Partial<IContainerParams>) {
     this.fInternalContainer = new Inversify.Container();
-    this.fInternalContainer.applyMiddleware(resolveInfo =>
-      this.onResolve(resolveInfo),
-    );
+    this.fInternalContainer.applyMiddleware((resolveInfo) => this.onResolve(resolveInfo));
     this.fIsLocked = params?.createLocked ?? false;
     this.fParams = Object.assign(this.fParams, params);
   }
@@ -85,15 +83,11 @@ class Container {
    */
   public bind<T>(
     key: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>,
-    implementation?:
-      | Inversify.interfaces.Newable<T>
-      | Inversify.interfaces.Abstract<T>,
+    implementation?: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>,
   ): void {
     // if it was created as locked but its now not, throw error
     if (!this.fIsLocked && this.fParams.createLocked) {
-      throw new Error(
-        'Container.bind() - trying to modify container after unlocking.',
-      );
+      throw new Error('Container.bind() - trying to modify container after unlocking.');
     }
 
     // if service key was already registered, unbind it, so overwriting by packages is possible
@@ -105,10 +99,7 @@ class Container {
 
     if (implementation === undefined) {
       // if user did not pass implementation, we assume that key is implementation
-      this.fInternalContainer
-        .bind(key)
-        .toSelf()
-        .inSingletonScope();
+      this.fInternalContainer.bind(key).toSelf().inSingletonScope();
     } else {
       // else we are binding key into custom implementation
       this.fInternalContainer
@@ -129,15 +120,10 @@ class Container {
    * @param key key of service, preferably class or abstract class
    * @param instance instance of class to be used as resolution
    */
-  public bindInstance<T>(
-    key: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>,
-    instance: T,
-  ): void {
+  public bindInstance<T>(key: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>, instance: T): void {
     // if it was created as locked but its now not, throw error
     if (!this.fIsLocked && this.fParams.createLocked) {
-      throw new Error(
-        'Container.bind() - trying to modify container after unlocking.',
-      );
+      throw new Error('Container.bind() - trying to modify container after unlocking.');
     }
 
     // if service key was already registered, unbind it, so overwriting by packages is possible
@@ -173,9 +159,7 @@ class Container {
   ): void {
     // if it was created as locked but its now not, throw error
     if (!this.fIsLocked && this.fParams.createLocked) {
-      throw new Error(
-        'Container.bind() - trying to modify container after unlocking.',
-      );
+      throw new Error('Container.bind() - trying to modify container after unlocking.');
     }
 
     // if service key was already registered, unbind it, so overwriting by packages is possible
@@ -198,13 +182,9 @@ class Container {
    * @param key key used in .bind() function to bind key class to implementation class
    * @returns service for identifier
    */
-  public get<T>(
-    key: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>,
-  ): T {
+  public get<T>(key: Inversify.interfaces.Newable<T> | Inversify.interfaces.Abstract<T>): T {
     if (this.fIsLocked) {
-      throw new Error(
-        'Container.get() - trying to get item from locked container.',
-      );
+      throw new Error('Container.get() - trying to get item from locked container.');
     }
 
     return this.fInternalContainer.get(key);
@@ -226,9 +206,7 @@ class Container {
    */
   public resolve<T>(classType: Inversify.interfaces.Newable<T>): T {
     if (this.fIsLocked) {
-      throw new Error(
-        'Container.resolve() - trying to construct item with locked container.',
-      );
+      throw new Error('Container.resolve() - trying to construct item with locked container.');
     }
 
     return this.fInternalContainer.resolve(classType);
@@ -239,7 +217,7 @@ class Container {
    * @returns array with all registered services
    */
   public getAllServices(): any[] {
-    return this.fServiceKeys.map(key => this.get(key));
+    return this.fServiceKeys.map((key) => this.get(key));
   }
 
   /**
@@ -265,18 +243,14 @@ class Container {
    * @param planAndResolve middleware next function
    * @return middleware next function
    */
-  private onResolve(
-    planAndResolve: Inversify.interfaces.Next,
-  ): Inversify.interfaces.Next {
+  private onResolve(planAndResolve: Inversify.interfaces.Next): Inversify.interfaces.Next {
     return (args: Inversify.interfaces.NextArgs) => {
       if (this.fIsLocked) {
-        throw new Error(
-          'Container.onResolve() - trying to resolve dependency on locked container.',
-        );
+        throw new Error('Container.onResolve() - trying to resolve dependency on locked container.');
       }
 
       const service = planAndResolve(args);
-      this.fOnConstructHandlers.forEach(handler => handler(service));
+      this.fOnConstructHandlers.forEach((handler) => handler(service));
       return service;
     };
   }

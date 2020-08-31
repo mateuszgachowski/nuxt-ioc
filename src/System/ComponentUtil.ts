@@ -3,6 +3,7 @@
 /* eslint-disable no-invalid-this */
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'reflect-metadata';
 import Vue, { ComponentOptions, PropOptions, Component, AsyncComponent, WatchOptions } from 'vue';
 import _merge from 'lodash/merge';
 import { initializeDecorators, destroyDecorators } from './Decorators';

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'reflect-metadata';
 import Vue from 'vue';
 
 // Single observable entry
@@ -20,11 +21,7 @@ export interface IObservedClass extends Object {
  * @param serviceKey unique service key
  * @param propertyName name of property that should be serialized
  */
-function addToObservableList(
-  target: IObservedClass,
-  serviceKey: string,
-  propertyName: string,
-): void {
+function addToObservableList(target: IObservedClass, serviceKey: string, propertyName: string): void {
   // create __observables magic-array if it does not exists
   if (!target.__observables) {
     target.__observables = [];
@@ -52,10 +49,7 @@ interface ISerializableParams {
  * @param params params object
  * @returns decorator function
  */
-export function Serializable(
-  serviceKey: string,
-  params?: ISerializableParams,
-): Function {
+export function Serializable(serviceKey: string, params?: ISerializableParams): Function {
   return function decorator(target: any, propertyName: string) {
     // make the property reactive using Vue.observable
     if (params && params.reactive) {

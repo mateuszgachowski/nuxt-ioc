@@ -15,7 +15,7 @@ module.exports = {
   buildDir: resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
   router: {
-    middleware: ['ssrReady'],
+    middleware: [],
   },
   modules: [{ handler: NuxtIocModule }],
 };

@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Container, Events, StateSerializer } from '../../';
 import MyService from './Domain/MyDomain/Service/MyService';
 import MyRepository from './Domain/MyDomain/Repository/MyRepository';

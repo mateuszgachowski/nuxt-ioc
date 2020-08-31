@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 import { Context } from '@nuxt/types';
-import { Events, StateSerializer, BeforeFrontRenderEvent, initializeContainer } from '../../';
-import container from '../Application/container';
+// @ts-ignore
+import { Events, StateSerializer, BeforeFrontRenderEvent, initializeContainer } from '<%= options.coreModule %>';
+// @ts-ignore
+import container from '<%= options.containerPath %>';
 
 /**
  * This middleware serializes state only on backend side (IOC)
@@ -12,6 +14,7 @@ export default function ssrReadyMiddleware(context: Context) {
   }
 
   context.beforeNuxtRender(async ({ nuxtState }) => {
+    console.log('nsstate', nuxtState);
     // Initialize container
     initializeContainer(container);
     console.log(nuxtState);
@@ -20,6 +23,8 @@ export default function ssrReadyMiddleware(context: Context) {
     const events = container.get(Events);
     await events.trigger(BeforeFrontRenderEvent);
     const initialState = stateSerializer.serialize(container);
+
     nuxtState.iocState = initialState;
+    console.log(nuxtState);
   });
 }
