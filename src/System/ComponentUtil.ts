@@ -7,9 +7,9 @@ import 'reflect-metadata';
 import Vue, { ComponentOptions, PropOptions, Component, AsyncComponent, WatchOptions } from 'vue';
 import _merge from 'lodash/merge';
 import { initializeDecorators, destroyDecorators } from './Decorators';
-import Injectable from './Injectable';
-import Container from './Container';
-import StateSerializer from './StateSerializer';
+import { Injectable } from './Injectable';
+import { Container } from './Container';
+import { StateSerializer } from './StateSerializer';
 
 /**
  * Returns type of property declared in class, using reflect-metadata.

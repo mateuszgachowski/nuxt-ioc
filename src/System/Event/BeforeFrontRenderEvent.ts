@@ -1,1 +1,1 @@
-export default class BeforeFrontRenderEvent {}
+export class BeforeFrontRenderEvent {}

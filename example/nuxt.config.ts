@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { resolve } from 'path';
-import { NuxtIocModule } from '~/../../';
 
 module.exports = {
   mode: 'universal',
@@ -16,5 +15,5 @@ module.exports = {
   router: {
     middleware: [],
   },
-  modules: [{ handler: NuxtIocModule }],
+  modules: ['~/../../'],
 };

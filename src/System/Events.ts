@@ -23,7 +23,7 @@
  */
 import 'reflect-metadata';
 import { remove } from 'lodash';
-import Injectable from './Injectable';
+import { Injectable } from './Injectable';
 
 // any type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,7 +57,7 @@ export interface IEventId {
 /**
  * This class is responsible for managing events.
  */
-export default class Events {
+export class Events {
   // holds last assigned id
   private fLastId = 0;
 

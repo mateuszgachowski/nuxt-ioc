@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import 'reflect-metadata';
-import Container from './Container';
-import Injectable from './Injectable';
+import { Container } from './Container';
+import { Injectable } from './Injectable';
 
 /**
  * A simple type of constructor for class "T"

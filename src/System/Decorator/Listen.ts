@@ -1,7 +1,7 @@
-import Events, { IEventType, IEventId } from '../Events';
+import { Events, IEventType, IEventId } from '../Events';
 import { BaseDecorator, createDecorator } from '../Decorators';
-import Injectable from '../Injectable';
-import Inject from '../Inject';
+import { Injectable } from '../Injectable';
+import { Inject } from '../Inject';
 
 interface IListenDecoratorParams {
   eventType: IEventType<unknown>;
@@ -44,6 +44,6 @@ class ListenDecorator extends BaseDecorator<IListenDecoratorParams> {
  * @param eventType event to listen for
  * @return decorator function
  */
-export default function Listen(eventType: IEventType<unknown>): Function {
+export function Listen(eventType: IEventType<unknown>): Function {
   return createDecorator(ListenDecorator, { eventType });
 }

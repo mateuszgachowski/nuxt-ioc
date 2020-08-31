@@ -6,5 +6,4 @@
 import 'reflect-metadata';
 import * as Inversify from 'inversify';
 
-const Injectable = Inversify.injectable;
-export default Injectable;
+export const Injectable = Inversify.injectable;

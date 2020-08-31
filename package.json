@@ -17,7 +17,8 @@
     "example": "nuxt example -c nuxt.config.ts"
   },
   "files": [
-    "lib/index.ts"
+    "lib/index.js",
+    "lib/index.d.ts"
   ],
   "repository": {
     "type": "git",

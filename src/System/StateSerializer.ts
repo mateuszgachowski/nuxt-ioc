@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { IObservedClass } from './VueUtil';
-import Injectable from './Injectable';
-import Container from './Container';
+import { Injectable } from './Injectable';
+import { Container } from './Container';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type IStateValue = any;
@@ -30,7 +30,7 @@ export interface ISerializableObject extends IObservedClass {
 /**
  *
  */
-export default class StateSerializer {
+export class StateSerializer {
   /** Array of custom classes that should be serialized as well */
   private fManualSerializableClasses: ISerializableObject[] = [];
 

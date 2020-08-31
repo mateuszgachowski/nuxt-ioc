@@ -3,7 +3,7 @@
     "target": "ES2019",
     "lib": ["esnext", "dom", "dom.iterable", "scripthost", "esnext.asynciterable"],
     "types": ["reflect-metadata", "node", "jest"],
-    "module": "commonjs",
+    "module": "esnext",
     "outDir": "./lib",
     "strict": true,
     "typeRoots": ["./node_modules/@types"],

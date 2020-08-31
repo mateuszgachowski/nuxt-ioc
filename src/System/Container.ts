@@ -24,7 +24,7 @@ export type ContainerProvider = (container: Container) => void;
 /**
  * IOC container implementation on livedata.
  */
-class Container {
+export class Container {
   // internal inversify instance that is wrapped
   private fInternalContainer: Inversify.Container;
 
@@ -255,5 +255,3 @@ class Container {
     };
   }
 }
-
-export default Container;
