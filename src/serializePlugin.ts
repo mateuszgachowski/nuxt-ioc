@@ -14,10 +14,8 @@ export default function ssrReadyMiddleware(context: Context) {
   }
 
   context.beforeNuxtRender(async ({ nuxtState }) => {
-    console.log('nsstate', nuxtState);
     // Initialize container
     initializeContainer(container);
-    console.log(nuxtState);
 
     const stateSerializer = container.get(StateSerializer);
     const events = container.get(Events);
@@ -25,6 +23,5 @@ export default function ssrReadyMiddleware(context: Context) {
     const initialState = stateSerializer.serialize(container);
 
     nuxtState.iocState = initialState;
-    console.log(nuxtState);
   });
 }

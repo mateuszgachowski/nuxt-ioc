@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { resolve } from 'path';
 import { NuxtIocModule } from '~/../../';
-console.log('LO');
 
 module.exports = {
   mode: 'universal',
