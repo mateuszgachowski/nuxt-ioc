@@ -21,13 +21,16 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
   ],
 
+  base: '/nuxt-ioc/',
+
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
    *
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
+    repo: 'mateuszgachowski/nuxt-ioc',
+    docsRepo: 'mateuszgachowski/nuxt-ioc',
     editLinks: false,
     docsDir: '',
     editLinkText: '',
