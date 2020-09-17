@@ -320,22 +320,28 @@ export class BaseComponent {
  * class methods.
  */
 export const $internalHooks = [
-  'data',
+  // Life hooks
   'beforeCreate',
   'created',
   'beforeMount',
   'mounted',
-  'beforeDestroy',
-  'destroyed',
   'beforeUpdate',
   'updated',
   'activated',
   'deactivated',
+  'beforeDestroy',
+  'destroyed',
+  'errorCaptured', // 2.5
+
+  // Vue methods
+  'data',
   'render',
+  'renderError',
+
+  // Nuxt methods
   'fetch',
   'asyncData',
   'layout',
-  'errorCaptured', // 2.5
 ];
 
 /**

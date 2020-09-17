@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nuxt-ioc": "1.0.0"
+    "nuxt-ioc": "1.0.1"
   }
 }

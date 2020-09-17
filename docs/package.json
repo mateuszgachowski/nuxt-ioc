@@ -1,0 +1,19 @@
+{
+  "name": "nuxt-ioc",
+  "version": "0.0.1",
+  "description": "IOC containers for Vue/Nuxt frameworks",
+  "main": "index.js",
+  "authors": {
+    "name": "Mateusz",
+    "email": "mateusz.gachowski@gmail.com"
+  },
+  "repository": "https://github.com/mateuszgachowski/nuxt-ioc/nuxt-ioc",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
