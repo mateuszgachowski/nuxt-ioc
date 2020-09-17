@@ -183,7 +183,6 @@ export class StateSerializer {
 
       return this.state;
     } catch (error) {
-      console.log(error);
       console.error('State', 'Cannot serialize state');
 
       // On error clear the state to prevent any conflicts

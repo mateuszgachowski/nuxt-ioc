@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "esnext.asynciterable"],
+    "target": "ES5",
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "esnext.asynciterable", "es2017", "es7", "es6", "dom"],
     "types": ["reflect-metadata", "node", "jest"],
-    "module": "esnext",
+    "module": "commonjs",
     "outDir": "./lib",
     "strict": true,
     "allowJs": true,
@@ -14,7 +14,8 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false,
-    "declaration": true
+    "declaration": true,
+    "removeComments": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "src/System"]
