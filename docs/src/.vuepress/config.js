@@ -44,17 +44,13 @@ module.exports = {
         text: 'Config',
         link: '/config/',
       },
-      {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org',
-      },
     ],
     sidebar: {
       '/guide/': [
         {
           title: 'Guide',
           collapsable: false,
-          children: ['', 'installation', 'settings', 'components', 'component-helpers', 'event-system'],
+          children: ['', 'installation', 'settings', 'components', 'component-decorators', 'event-system'],
         },
       ],
     },
