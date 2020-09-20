@@ -50,7 +50,16 @@ module.exports = {
         {
           title: 'Guide',
           collapsable: false,
-          children: ['', 'installation', 'settings', 'components', 'component-decorators', 'event-system'],
+          children: [
+            '',
+            'installation',
+            'settings',
+            'components',
+            'component-decorators',
+            'structure',
+            'event-system',
+            'testing',
+          ],
         },
       ],
     },
