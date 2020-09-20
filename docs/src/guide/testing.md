@@ -8,6 +8,8 @@ In this chapter we will focus mainly on unit testing your IOC classes.
 As you might see `Test` directory is separated from `Domain` directory. In some projects you'll probably see tests put within the source files (side by side). We have tested both approaches and decided to go with separated `Test` directory containing only tests. As always, this is just a suggestion and you can choose by yourself.
 :::
 
+## Example unit test
+
 An example test of a service looks like this:
 
 ```ts
@@ -102,3 +104,13 @@ Now, testing the `MyService.getMyData` method we do not unit test fetching logic
 ::: warning
 Above example is just to explain unit testing. The final service class should support error catching and setting the correct state in case of request failure but for code simplicity this was omitted.
 :::
+
+## Container methods
+
+As in the previous example you can use some helper methods on the Container class. Those are:
+
+- `Container.bind(classKey, implementation)` - binds particular class (abstract or concrete) into class implementation. As a key you can pass either direct implementation or an abstract class. If second argument is not passed, class passed will be both bind key and implementation. Use this to bind class without any changes in unit tests.
+
+- `Container.bindInstance(classKey, instance)` - binds particular class to an existing class instance. You can use this to share single class instance between two or more containers.
+
+- `Container.bindMock(classKey, implementation)` - binds mocked instance to a particular class. This can be used to mock classes in unit tests. It allows it to be a partial class mock.
