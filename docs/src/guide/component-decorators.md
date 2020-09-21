@@ -1,7 +1,7 @@
 # Component decorators
 
-`nuxt-ioc` comes with several helpful syntactic sugar decorators, that will help keeping your code similar and clean.
-Those conventions are optional, but we do recommend using them.
+`nuxt-ioc` comes with several helpful syntactic sugar decorators, that will help keeping your code uniform and clean.
+Those conventions are optional, but **we do recommend using them**.
 
 ## `@Components` decorator
 
@@ -17,6 +17,8 @@ import MyOtherComponent from './MyOtherComponent.vue';
 })
 export class MyComponent extends BaseComponent {}
 ```
+
+The syntax is identical to to [component local registration](https://vuejs.org/v2/guide/components-registration.html#Local-Registration)
 
 ::: tip
 This decorator is not required if you do not have component dependencies. Just do not include it when you do not need it.
@@ -96,7 +98,7 @@ export class MyComponent extends BaseComponent {
 
 ## `@Watch` decorator
 
-Vue.js allows to watch component properties using the `watch: {}` option. For more object-oriented approach you can use `@Watch` decorator for this
+Vue.js allows to watch component data using the `watch: {}` option. For more object-oriented approach you can use `@Watch` decorator for this
 
 ```ts
 import { Injectable, Watch, BaseComponent } from 'nuxt-ioc';
@@ -124,7 +126,7 @@ export class MyComponent extends BaseComponent {
 
 ## `@Meta` decorator
 
-This decorator is to make easier working with great [vue-meta package](https://vue-meta.nuxtjs.org/). It allows you to decorate a class method with `@Meta` which will automatically pass correct information to the `vue-meta` package.
+This decorator helps working with great [vue-meta package](https://vue-meta.nuxtjs.org/). It allows you to decorate a class method with `@Meta` which will automatically pass correct information to the `vue-meta` package.
 
 ```ts
 import { Injectable, Meta, BaseComponent } from 'nuxt-ioc';

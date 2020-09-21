@@ -2,7 +2,9 @@
 
 Our solution would not be full if we would not provide a way to create Vue components with Dependency Injection syntax.
 
-To allow this, we have prepared several decoratos and helper functions that will allow to construct Vue components in a full-typed manner.
+To allow this, we have prepared several decorators and helper functions that will allow to construct Vue components in a fully-typed manner.
+
+For complete decorators list read [component decorators section](./component-decorators).
 
 ## Example component
 
@@ -33,8 +35,8 @@ export default factory(MyComponent);
 </script>
 ```
 
-As you have probably noticed, we do not `export default` the class itself, but put the class through a `factory` method.
-This allows us to have more control over what happens with the class and also provides a way to always reduce the class to simple vue options object. The `factory` function always returns similar object:
+As you have probably noticed, we do not `export default` the class itself, but put the class through a `factory()` function.
+This allows us to have more control over what happens with the class and also provides a way to always reduce the class to simple vue options object. The `factory` function always returns vue `ComponentOptions` object, which looks like this:
 
 ```ts
 export default {
@@ -59,9 +61,9 @@ export default {
 };
 ```
 
-Above options object is build from class properties and method. More or less you can say that:
+This object is build from class properties and method. More or less you can say that:
 
-- Getters:
+- Class getters:
 
 ```ts
 public get myGetter() {}
@@ -75,7 +77,7 @@ public get myGetter() {}
 }
 ```
 
-- Methods:
+- Class methods:
 
 ```ts
 public myMethod() {}
@@ -89,7 +91,7 @@ public myMethod() {}
 }
 ```
 
-- Props:
+- Class props:
 
 ```ts
 public someProp: string = 'Hello world'
@@ -115,7 +117,7 @@ private gMyService: MyService;
 ```
 
 ::: tip
-You can see that class property for import is written with a `g` prefix. This is just a convention and you can change it to match your style.
+You can see that class property is named with a `g` prefix. This is just a convention and you can change it to match your style.
 However using `g` or any other prefix for external dependencies makes syntax completion easier and more strict.
 :::
 
@@ -125,35 +127,35 @@ We suggest to always inject dependencies as `private` to prevent accessing them 
 
 ## Vue Lifecycle hook methods
 
-As we all know Vue.js has several lifehook methods that are used to interact with the component lifecycle.
+Vue.js has several lifehook methods that are used to interact with the component lifecycle.
 When we are using a class-based syntax, default methods could conflict with vue build-in ones. To solve this problem all Vue lifecycle hooks are prefixed with a `$` (dollar) sign.
 
-Currently following [vue lifehooks](https://vuejs.org/v2/api/#Options-Lifecycle-Hooks) are supported:
+Currently, following [vue lifehooks](https://vuejs.org/v2/api/#Options-Lifecycle-Hooks) are supported:
 
-- `beforeCreate`
-- `created`
-- `beforeMount`
-- `mounted`
-- `beforeUpdate`
-- `updated`
-- `activated`
-- `deactivated`
-- `beforeDestroy`
-- `destroyed`
-- `errorCaptured`
+- `$beforeCreate`
+- `$created`
+- `$beforeMount`
+- `$mounted`
+- `$beforeUpdate`
+- `$updated`
+- `$activated`
+- `$deactivated`
+- `$beforeDestroy`
+- `$destroyed`
+- `$errorCaptured`
 
 With some vue basic methods:
 
-- `data`
-- `render`
-- `renderError`
-- `emit`
+- `$data`
+- `$render`
+- `$renderError`
+- `$emit`
 
 And Nuxt-specific methods:
 
-- `asyncData` ([documentation](https://nuxtjs.org/guide/async-data))
-- `fetch` ([documentation](https://nuxtjs.org/api/pages-fetch))
-- `layout` ([documentation](https://nuxtjs.org/api/pages-layout))
+- `$asyncData` ([documentation](https://nuxtjs.org/guide/async-data))
+- `$fetch` ([documentation](https://nuxtjs.org/api/pages-fetch))
+- `$layout` ([documentation](https://nuxtjs.org/api/pages-layout))
 
 ## Accesing other Vue options
 

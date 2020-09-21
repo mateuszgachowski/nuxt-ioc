@@ -6,7 +6,7 @@
 This library is intended for TypeScript development only. Vanilla-JS is not supported due to need of use of decorators.
 :::
 
-Our concepts are based on [IoC](https://en.wikipedia.org/wiki/Inversion_of_control), [DI](https://en.wikipedia.org/wiki/Dependency_injection) and heavily inspired by great framework like [Java Spring](https://spring.io/) and [Nest.js](https://nestjs.com/).
+Our concepts are based on [IoC](https://en.wikipedia.org/wiki/Inversion_of_control), [DI](https://en.wikipedia.org/wiki/Dependency_injection) and heavily inspired by great frameworks like [Java Spring](https://spring.io/) and [Nest.js](https://nestjs.com/).
 
 You might also see similarities to [Angular framework](https://angular.io/guide/dependency-injection) but those are rather by just using same concepts of DI. Differently from angular `nuxt-ioc` tries to be simple and keep the low-entry level for which we all love Vue.js for.
 
@@ -18,7 +18,7 @@ Under the hood `nuxt-ioc` uses great [Inversify](http://inversify.io/) library.
 
 # Motivation
 
-[Vue.js](https://vuejs.org/) is a great and simple framework. [Nuxt.js](https://nuxtjs.org/) even better organizes basic concepts of SSR, middleware and provides simple structure for files. `nuxt-ioc` should be next level of making this ecosystem more of a framework than a set of libraries zipped together.
+[Vue.js](https://vuejs.org/) is a great and simple framework. [Nuxt.js](https://nuxtjs.org/) organizes basic concepts of SSR, middleware and provides simple structure for files. `nuxt-ioc` is ment to be the next level of making this ecosystem more of a framework than a set of libraries zipped together.
 At the time of creation of `nuxt-ioc` there were no easy solutions allowing similar syntax-sugar and DI approach for Vue.js/Nuxt applications. Similar can be found but does not solve the problem typically for typescript nor implement full IoC containers.
 
 Several sources that mention vue/nuxt IoC approaches:

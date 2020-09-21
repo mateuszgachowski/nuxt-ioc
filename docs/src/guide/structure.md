@@ -57,7 +57,7 @@ Suggested file structure is following for `nuxt-ioc` projects
 
 In the above example you can see several patterns that we suggest.
 
-First, a `Application` directory that is placed right in the root dir of your application.
+First, the `Application` directory that is placed right in the root dir of your application.
 
 `Application` directory contains of three subdirectories:
 
@@ -67,7 +67,7 @@ First, a `Application` directory that is placed right in the root dir of your ap
 
 ## Domain directory
 
-Domain directory should contain only domain directories. The only exception is `container.ts` file.
+`Domain` directory should contain only domain subdirectories (e.g. `MyDomain`). The only exception is `container.ts` file.
 
 According to DDD approach domains are the real logical/business parts of your architecture. To define them you should use [Event Storming](https://en.wikipedia.org/wiki/Event_storming) but if you are not familiar with ES just try to name them by yourself and what you think will be best.
 
@@ -84,7 +84,7 @@ In the domain directory (in our example `MyDomain`) we can find further director
 Optional directories:
 
 - `Config` - if this domain has some configuration class/objects put them here
-- `Route` - put all route definitions here that are related to this domain
+- `Route` - put all route definitions here that are related to this domain only
 - `Directives` - if domain requires [Vue directives](https://vuejs.org/v2/guide/custom-directive.html) add them here
 - `Strategy` - if your domain has some [strategies](https://refactoring.guru/design-patterns/strategy) put them here
 
@@ -100,7 +100,7 @@ Utils directory is ment to contain some global types or enums that are valid thr
 
 ## Test directory
 
-Unit tests are ment to be put here. For more information about writing tests for your IOC classes please refer to [testing your app](./testing) section.
+Unit tests are ment to be put here. For more information about writing tests for your IoC classes please refer to [testing your app](./testing) section.
 
 ::: tip
 As you can see `Test` directory is separated from `Domain` directory. In some projects you'll probably see tests put within the source files (side by side). We have tested both approaches and decided to go with separated `Test` directory containing only tests. As always, this is just a suggestion and you can choose by yourself.
@@ -108,7 +108,7 @@ As you can see `Test` directory is separated from `Domain` directory. In some pr
 
 ## Further read
 
-While creating the domain classess you should keep in mind best programming principles that we will just briefly touch in this book.
+While creating the domain classes you should keep in mind best programming principles that we will just briefly touch in this book.
 
 - [SOLID](https://en.wikipedia.org/wiki/SOLID), especially SRP
 - [CQ(R)S](https://martinfowler.com/bliki/CQRS.html)

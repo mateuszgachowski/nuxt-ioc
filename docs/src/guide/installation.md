@@ -12,9 +12,7 @@ npm i -S nuxt-ioc
 
 And then add `nuxt-ioc` to your `modules` inside `nuxt.config.ts`:
 
-```ts{1,6-10,11}
-import 'reflect-metadata'; // Import reflect-metadata
-
+```ts{4-9}
 module.exports = {
   mode: 'universal',
   buildModules: ['@nuxt/typescript-build'],
@@ -26,6 +24,14 @@ module.exports = {
   modules: ['nuxt-ioc'], // Add nuxt-ioc package as nuxt module
 };
 ```
+
+::: danger
+The `bundleRenderer` option (`runInNewContext`) **is required** and without it `nuxt-ioc` will not work
+:::
+
+::: tip
+You will need `@nuxt/typescript-build` for building typescript files. If you are building your app in TS you probably have this already.
+:::
 
 ## Creating IoC container
 

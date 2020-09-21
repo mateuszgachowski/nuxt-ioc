@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { resolve } from 'path';
 
 module.exports = {
