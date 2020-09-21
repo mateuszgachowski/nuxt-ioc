@@ -2,7 +2,7 @@
 
 Automated tests are considered an essential part of any software development that is ment to be long-running.
 
-In this chapter we will focus mainly on unit testing your IOC classes.
+In this chapter we will focus mainly on unit testing your IoC classes.
 
 ::: tip
 As you might see `Test` directory is separated from `Domain` directory. In some projects you'll probably see tests put within the source files (side by side). We have tested both approaches and decided to go with separated `Test` directory containing only tests. As always, this is just a suggestion and you can choose by yourself.
