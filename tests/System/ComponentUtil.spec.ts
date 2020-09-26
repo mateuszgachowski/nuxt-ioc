@@ -132,6 +132,10 @@ class ParentComponent extends BaseComponent {
     spyOnResult('render');
   }
 
+  public $renderError(): void {
+    spyOnResult('renderError');
+  }
+
   public $errorCaptured(): void {
     spyOnResult('errorCaptured');
   }

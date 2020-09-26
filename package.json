@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ioc",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Nuxt IOC implementation",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -17,6 +17,7 @@
     "example": "nuxt example -c nuxt.config.ts"
   },
   "files": [
+    "README.md",
     "lib/**/*.js",
     "lib/**/*.d.ts"
   ],
@@ -44,7 +45,6 @@
     "@types/node": "14.6.0",
     "inversify": "5.0.1",
     "jest": "26.4.2",
-    "jsmin": "^1.0.1",
     "lodash": "4.17.20",
     "nuxt": "2.13.2",
     "prettier": "2.1.0",
@@ -54,8 +54,6 @@
     "tslint": "6.1.3",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.9.5",
-    "uglify-js": "3.10.4",
-    "vue": "2.6.12",
-    "vuex": "3.5.1"
+    "vue": "2.6.12"
   }
 }
