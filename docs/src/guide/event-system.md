@@ -305,3 +305,9 @@ export class SomeActionFiredEvent {
 ::: warning
 Even this is a class representation of an Event we do not recommend to create methods on this class, even if this would work. An `Event Class` should only contain class properties, most likely all should be `public`.
 :::
+
+## System Events
+
+`nuxt-ioc` provides following, automatically triggered events that informs you about current Nuxt.js state
+
+`BeforeFrontRenderEvent` - triggered just before field serialization

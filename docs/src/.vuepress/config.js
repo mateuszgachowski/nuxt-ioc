@@ -58,6 +58,7 @@ module.exports = {
             'component-decorators',
             'structure',
             'event-system',
+            'serialization',
             'testing',
           ],
         },
