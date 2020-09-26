@@ -135,7 +135,7 @@ export default class MyService {
 }
 ```
 
-The code above might seem "smelly" to you and you are right. From more science approach you can say that this class has high [cohesion](<https://en.wikipedia.org/wiki/Cohesion_(computer_science)>).
+The code above might seem "smelly" to you and you are right. From more science approach you can say that this class has low [cohesion](<https://en.wikipedia.org/wiki/Cohesion_(computer_science)>).
 
 What does it mean? In simple words:
 
@@ -145,9 +145,18 @@ As you see, all those dependencies are injected only to fire them in this one, p
 
 You might probably recall programming good practice sentence:
 
-> Low cohesion, High coupling
+> High cohesion, low coupling
 
-Now we know this class has high cohesion and low coupling which is the oposite of what we want.
+::: tip
+To explain cohesion and coupling we can use this great explanation:
+
+**Cohesion** - how closely related everything is with one another.
+
+**Coupling** - how everything is connected to one another.
+
+:::
+
+Now we know this class has low cohesion and high coupling which is the oposite of what we want.
 
 How can we change it then? How to solve our dependency problem?
 

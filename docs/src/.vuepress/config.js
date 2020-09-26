@@ -41,8 +41,8 @@ module.exports = {
         link: '/guide/',
       },
       {
-        text: 'Config',
-        link: '/config/',
+        text: 'NPM',
+        link: 'https://www.npmjs.com/package/nuxt-ioc',
       },
     ],
     sidebar: {
@@ -73,5 +73,14 @@ module.exports = {
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom'],
+  plugins: [
+    '@vuepress/plugin-back-to-top',
+    '@vuepress/plugin-medium-zoom',
+    [
+      '@vuepress/google-analytics',
+      {
+        ga: 'UA-179095821-1',
+      },
+    ],
+  ],
 };
