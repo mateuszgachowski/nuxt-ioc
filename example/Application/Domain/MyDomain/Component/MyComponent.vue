@@ -33,7 +33,7 @@ export class AnyComponent extends BaseComponent {
   }
 
   @Listen(MyCustomEvent)
-  public handleMyCustomEvent(payload): void {
+  public handleMyCustomEvent(payload: MyCustomEvent): void {
     console.log('EVENT TRIGGERED', payload);
   }
 }
