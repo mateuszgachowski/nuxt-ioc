@@ -46,13 +46,13 @@ export default class MyService {
 
 As you can see, your state property should be called exactly `state` and you just decorate it with `@Serializable()` decorator. As decorator argument you must pass its unique key - we suggest following pattern:
 
-```txt
+```
 <ClassName>.state
 ```
 
 or for more complex systems:
 
-```txt
+```
 <DomainName>:<ClassName>.state
 ```
 

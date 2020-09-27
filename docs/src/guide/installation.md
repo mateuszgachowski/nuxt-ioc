@@ -2,6 +2,14 @@
 
 We try to make the installation process as easy as possible, but it still needs a bit more than just `npm install` :)
 
+## Prerequisites
+
+```bash
+npm i -D reflect-metadata          # required for decorators metadata
+npm i -D @nuxt/typescript-runtime  # required for nuxt.config.ts file to be compiled (use `nuxt-ts` to start server) [optional]
+npm i -D @nuxt/typescript-build    # required for nuxt to compile typescript files
+```
+
 ## Attaching the module
 
 So, first install `nuxt-ioc` package:
@@ -41,7 +49,7 @@ By default, the path of `container.ts` file is following: `~/Application/contain
 
 So, lets create the required Application structure:
 
-```txt{4}
+```text{4}
 .
 ├── Application
 │   ├── MyService.ts <-- this is an example service file
