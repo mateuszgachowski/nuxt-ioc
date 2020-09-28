@@ -19,6 +19,18 @@ module.exports = {
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=UA-179095821-1' }],
+    [
+      'script',
+      {},
+      `<!-- Global site tag (gtag.js) - Google Analytics -->
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-179095821-1');
+    `,
+    ],
   ],
 
   base: '/nuxt-ioc/',
@@ -73,14 +85,5 @@ module.exports = {
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
    */
-  plugins: [
-    '@vuepress/plugin-back-to-top',
-    '@vuepress/plugin-medium-zoom',
-    [
-      '@vuepress/google-analytics',
-      {
-        ga: 'UA-179095821-1',
-      },
-    ],
-  ],
+  plugins: ['@vuepress/plugin-back-to-top', '@vuepress/plugin-medium-zoom'],
 };
