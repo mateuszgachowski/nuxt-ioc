@@ -43,6 +43,8 @@ class ParentComponent extends BaseComponent {
 
   private variable: number = 2;
 
+  private numberProp: number = 0;
+
   @Ref('form')
   private formRef: any;
 
@@ -91,6 +93,10 @@ class ParentComponent extends BaseComponent {
 
   public customMethod(): void {
     spyOnResult('customMethod');
+  }
+
+  public methodToUpdateProp(): void {
+    this.numberProp += 1;
   }
 
   /**
@@ -177,6 +183,7 @@ const MOCK_INSTANCE = {
     },
   },
   $route: {},
+  __instance: {},
   getComponentInstance() {
     return {};
   },
@@ -355,6 +362,18 @@ describe('[Framework][Vue] ComponentUtil', () => {
     expect(data?.hasOwnProperty('variable')).toEqual(true);
     expect((data as any).variable).toBeDefined();
     expect((data as any).variable).toEqual(2);
+  });
+
+  it.only('[Data] should update prop in template', () => {
+    const data = (target as any).data();
+
+    expect(data?.hasOwnProperty('numberProp')).toEqual(true);
+    expect((data as any).numberProp).toBeDefined();
+    expect((data as any).numberProp).toEqual(0);
+
+    (target.methods as any).methodToUpdateProp.call(MOCK_INSTANCE);
+
+    expect((data as any).numberProp).toEqual(1);
   });
 
   it('[ServerPrefetch] should call method', () => {

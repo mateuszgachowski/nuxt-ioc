@@ -387,7 +387,8 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       // rebind this to our component class in place of real Vue instance
       if (typeof descriptor.value === 'function') {
         const method = function methodCode(this: any, ...args: any[]): any {
-          const instance = this.getComponentInstance();
+          const instance = this.__instance || this.getComponentInstance();
+
           return instance[key].call(instance, ...args);
         };
         // save magical method to Vue options object
@@ -397,7 +398,6 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       // if its getter/setter, then we use it as computed properties
       // with computed: { xxx: { set: function(...), get: function(...) } }
       // vue syntax
-
       options.computed = options.computed || {};
 
       // transform getter into computed get
@@ -549,6 +549,8 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
 
       // create instance of class component using IOC container to make injects, etc. work
       const classInstance = this.getComponentInstance();
+
+      this.__instance = classInstance;
 
       // collect data from class instance, its here because class must be constructed before
       // we can do it

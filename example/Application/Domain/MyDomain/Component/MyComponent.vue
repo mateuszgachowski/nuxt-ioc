@@ -1,5 +1,14 @@
 <template>
-  <div>THIS WORKS CORRECTLY {{ elo }} <button @click="triggerEvent">ClickMe</button></div>
+  <div>
+    THIS WORKS CORRECTLY {{ elo }}
+    <button @click="triggerEvent">ClickMe</button>
+
+    <br>
+    {{ thisIsAClassProp }}
+    </br>
+
+    <button @click="updateProp">Update number</button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -16,12 +25,18 @@ export class AnyComponent extends BaseComponent {
   @Inject(MyService)
   private gMyService: MyService;
 
+  private thisIsAClassProp: number = 0;
+
   public async $fetch(): Promise<void> {
     await this.gMyService.getMyData();
   }
 
   public $mounted(): void {
     console.log(this.gMyService.state);
+  }
+
+  public updateProp(): void {
+    this.thisIsAClassProp += 1;
   }
 
   public async triggerEvent(): Promise<void> {
