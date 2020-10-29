@@ -364,7 +364,7 @@ describe('[Framework][Vue] ComponentUtil', () => {
     expect((data as any).variable).toEqual(2);
   });
 
-  it.only('[Data] should update prop in template', () => {
+  it('[Data] should update prop in template', () => {
     const data = (target as any).data();
 
     expect(data?.hasOwnProperty('numberProp')).toEqual(true);

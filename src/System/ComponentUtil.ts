@@ -387,7 +387,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       // rebind this to our component class in place of real Vue instance
       if (typeof descriptor.value === 'function') {
         const method = function methodCode(this: any, ...args: any[]): any {
-          const instance = this.__instance || this.getComponentInstance();
+          const instance = this.getComponentInstance();
 
           return instance[key].call(instance, ...args);
         };
@@ -537,20 +537,25 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
 
       const container: Container = this.$root.__container || this.$root._provided.__container;
 
+      // save real vue instance as $vue property in class instance (see BaseComponent class)
+      const instance = container.resolve(classType) as any;
+
+      instance.$vue = this;
+
       // save method to get component instance in other parts of logic
       this.getComponentInstance = () => {
-        const instance = container.resolve(classType) as any;
+        const innerContainer = container.resolve(classType) as any;
 
-        // save real vue instance as $vue property in class instance (see BaseComponent class)
-        instance.$vue = this;
+        // Rewrite all things that are a reference and might be lost on getting new instance
+        Object.getOwnPropertyNames(instance)
+          .filter((propName) => innerContainer[propName] === Object(innerContainer[propName]))
+          .forEach((propName) => (instance[propName] = innerContainer[propName]));
 
         return instance;
       };
 
       // create instance of class component using IOC container to make injects, etc. work
       const classInstance = this.getComponentInstance();
-
-      this.__instance = classInstance;
 
       // collect data from class instance, its here because class must be constructed before
       // we can do it
