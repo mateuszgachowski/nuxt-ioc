@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Context } from '@nuxt/types';
 // @ts-ignore
-import { Events, StateSerializer, BeforeFrontRenderEvent, initializeContainer } from '<%= options.coreModule %>';
+import { Events, BeforeFrontRenderEvent, initializeContainer } from '<%= options.coreModule %>';
 // @ts-ignore
 import container from '<%= options.containerPath %>';
 
@@ -13,15 +13,11 @@ export default function ssrReadyMiddleware(context: Context) {
     return;
   }
 
-  context.beforeNuxtRender(async ({ nuxtState }) => {
+  context.beforeNuxtRender(async () => {
     // Initialize container
     initializeContainer(container);
 
-    const stateSerializer = container.get(StateSerializer);
     const events = container.get(Events);
     await events.trigger(BeforeFrontRenderEvent);
-    const initialState = stateSerializer.serialize(container);
-
-    nuxtState.iocState = initialState;
   });
 }

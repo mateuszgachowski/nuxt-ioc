@@ -211,7 +211,7 @@ export function Meta<T extends BaseComponent>(): Function {
     }
 
     classOfTarget.__options.head = function internalHandler() {
-      const instance = this.getComponentInstance();
+      const instance = this.__instance;
       return instance[propertyName]();
     };
   };
@@ -302,7 +302,7 @@ export class BaseComponent {
    * @return {Array} BaseComponent
    */
   public getChildren(): BaseComponent[] {
-    return this.$vue.$children.map((c: any) => c.getComponentInstance());
+    return this.$vue.$children.map((c: any) => c.__instance);
   }
 
   /**
@@ -374,7 +374,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
             return proto[key].call(null, ...args);
           }
           // call the function, passing our component class as "this" instead of Vue instance
-          return proto[key].call(this.getComponentInstance(), ...args);
+          return proto[key].call(this.__instance, ...args);
         };
         return;
       }
@@ -387,8 +387,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       // rebind this to our component class in place of real Vue instance
       if (typeof descriptor.value === 'function') {
         const method = function methodCode(this: any, ...args: any[]): any {
-          const instance = this.getComponentInstance();
-
+          const instance = this.__instance;
           return instance[key].call(instance, ...args);
         };
         // save magical method to Vue options object
@@ -405,7 +404,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
         options.computed[key] = options.computed[key] || {};
         options.computed[key].get = function getterFunc(this: any) {
           // rebind this to use our class instead of vue instance
-          return descriptor.get?.call(this.getComponentInstance());
+          return descriptor.get?.call(this.__instance);
         };
       }
 
@@ -415,7 +414,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
         options.computed[key].set = function setterFunc(this: any, value: any) {
           // rebind this to use our class instead of vue instance
           // eslint-disable-next-line no-unused-expressions
-          descriptor.set?.call(this.getComponentInstance(), value);
+          descriptor.set?.call(this.__instance, value);
         };
       }
     }
@@ -473,6 +472,10 @@ function generateId(): string {
   return `${++lastId % 0xf000000}`;
 }
 
+function isSsrHydration(vm: any) {
+  return vm.$vnode && vm.$vnode.elm && vm.$vnode.elm.dataset && vm.$vnode.elm.dataset.fetchKey;
+}
+
 /**
  * Factory function for Vue component. It accepts component class instance with properties,
  * methods, getters, setters and decorators and turns it into raw vue component literal by
@@ -483,8 +486,7 @@ function generateId(): string {
 export function factory(target: typeof BaseComponent): ComponentOptions<any> {
   const classType = getClassOfTarget(target);
 
-  // create reactive vue data (state) object
-  let dataObject: Record<string, any>;
+  let dataObject: Record<string, any> = {};
 
   // merge computed properties
   const computed = _merge(
@@ -506,7 +508,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
      * @param this this is real Vue instance, passed by framework
      */
     async serverPrefetch(this: any): Promise<void> {
-      const instance = this.getComponentInstance();
+      const instance = this.__instance;
       // call $serverPrefetch() hook if it exists on component
       if (instance.$serverPrefetch) {
         await instance.$serverPrefetch();
@@ -542,32 +544,35 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
 
       instance.$vue = this;
 
-      // save method to get component instance in other parts of logic
-      this.getComponentInstance = () => {
-        const innerContainer = container.resolve(classType) as any;
-
-        // Rewrite all things that are a reference and might be lost on getting new instance
-        Object.getOwnPropertyNames(instance)
-          .filter((propName) => innerContainer[propName] === Object(innerContainer[propName]))
-          .forEach((propName) => (instance[propName] = innerContainer[propName]));
-
-        return instance;
-      };
+      // save our class component instance as __instance field in real Vue component
+      this.__instance = instance;
 
       // create instance of class component using IOC container to make injects, etc. work
-      const classInstance = this.getComponentInstance();
+      const classInstance = this.__instance;
 
-      // collect data from class instance, its here because class must be constructed before
-      // we can do it
       dataObject = collectData(classInstance);
+
+      if (process.client && isSsrHydration(this)) {
+        this._fetchKey = Number(this.$vnode.elm.dataset.fetchKey);
+
+        const nuxtState = (window as any).__NUXT__;
+        const data = nuxtState.fetch[this._fetchKey];
+        const mergedInstance = _merge(instance, data);
+
+        Object.getOwnPropertyNames(mergedInstance)
+          .filter((key) => !['$vue'].includes(key))
+          .forEach((key) => {
+            nuxtState.fetch[this._fetchKey][key] = mergedInstance[key];
+          });
+      }
 
       // prepare class for decorator usage
       initializeDecorators(classInstance, container);
 
       // prepare class for @Serialize() decorator usage
       const stateSerializer = container.get(StateSerializer);
+
       if (process.client) {
-        // simply unserialize the service on frontend
         stateSerializer.unserializeService(classInstance, stateSerializer.getSerializedState());
       } else {
         // on backend simply add this instance to serializable list, so it will appear serialized on frontend
@@ -577,7 +582,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
 
     beforeDestroy(this: any) {
       // get class instance from vue component
-      const instance = this.getComponentInstance();
+      const instance = this.__instance;
 
       // call original callback
       if (instance.$beforeDestroy) {

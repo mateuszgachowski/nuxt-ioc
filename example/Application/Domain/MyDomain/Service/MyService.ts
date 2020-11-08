@@ -1,4 +1,4 @@
-import { Injectable, Inject, Serializable, Events } from '../../../../../';
+import { Injectable, Inject, Serializable, Events, Listen } from '../../../../../';
 import MyRepository from '../Repository/MyRepository';
 import MyCustomEvent from '../Event/MyCustomEvent';
 
@@ -16,14 +16,15 @@ export default class MyService {
   };
 
   public async getMyData(): Promise<void> {
-    if (this.state.something.length > 0) {
-      return;
-    }
-
     const myData = await this.gMyRepository.getMyData();
 
     await this.gEvents.trigger(MyCustomEvent);
 
     this.state.something = myData;
+  }
+
+  @Listen(MyCustomEvent)
+  public async handleMyCustomEventInService(payload: MyCustomEvent): Promise<void> {
+    console.log('[From service] this is fired inside service with an custom event');
   }
 }

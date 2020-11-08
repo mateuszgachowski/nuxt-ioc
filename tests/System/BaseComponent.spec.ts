@@ -5,7 +5,7 @@ const MOCK_VUE = {
   __uid: 'uuid',
   $children: [
     {
-      getComponentInstance: () => 'MOCK_INSTANCE',
+      __instance: () => 'MOCK_INSTANCE',
     },
   ],
   $emit: MOCK_EMIT,
@@ -26,7 +26,7 @@ describe('[Framework][Vue] BaseComponent', () => {
   it('should get all child components', () => {
     const child = baseComponent.getChildren();
     expect(child.length).toEqual(1);
-    expect(child[0]).toEqual(MOCK_VUE.$children[0].getComponentInstance());
+    expect(child[0]).toEqual(MOCK_VUE.$children[0].__instance);
   });
 
   it('should emit new event', () => {

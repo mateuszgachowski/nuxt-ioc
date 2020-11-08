@@ -184,9 +184,6 @@ const MOCK_INSTANCE = {
   },
   $route: {},
   __instance: {},
-  getComponentInstance() {
-    return {};
-  },
 };
 
 describe('[Framework][Vue] ComponentUtil', () => {
@@ -219,7 +216,7 @@ describe('[Framework][Vue] ComponentUtil', () => {
     expect(props.propInterface).toBeDefined();
     expect(props.prop).toEqual(PROP_OPTIONS);
     expect(props.propInterface).toEqual({ type: Object });
-    expect((MOCK_INSTANCE as any).getComponentInstance().prop).toEqual(MOCK_INSTANCE.$props.prop);
+    expect((MOCK_INSTANCE as any).__instance.prop).toEqual(MOCK_INSTANCE.$props.prop);
   });
 
   describe('[RouterParam]', () => {

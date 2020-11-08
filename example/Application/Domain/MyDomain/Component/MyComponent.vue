@@ -2,10 +2,16 @@
   <div>
     THIS WORKS CORRECTLY {{ elo }}
     <button @click="triggerEvent">ClickMe</button>
+    <button @click="updateData">Upadte data</button>
 
-    <br>
+    <br />
     {{ thisIsAClassProp }}
-    </br>
+    <br />
+
+    <br />
+
+    {{ someClassMethod() }}
+    {{ someClassMethod2() }}
 
     <button @click="updateProp">Update number</button>
   </div>
@@ -25,14 +31,22 @@ export class AnyComponent extends BaseComponent {
   @Inject(MyService)
   private gMyService: MyService;
 
+  @Meta()
+  private getMeta(): MetaInfo {
+    return {
+      title: 'Uno dos tres!',
+    };
+  }
+
   private thisIsAClassProp: number = 0;
+
+  private complexObject = {
+    test: 1,
+    another: 'b',
+  };
 
   public async $fetch(): Promise<void> {
     await this.gMyService.getMyData();
-  }
-
-  public $mounted(): void {
-    console.log(this.gMyService.state);
   }
 
   public updateProp(): void {
@@ -47,8 +61,21 @@ export class AnyComponent extends BaseComponent {
     return this.gMyService.state.something;
   }
 
+  public someClassMethod(): string {
+    return 'test';
+  }
+
+  public someClassMethod2(): Record<string, any> {
+    return this.complexObject;
+  }
+
+  public async updateData(): Promise<void> {
+    console.log('fire getMyData()');
+    await this.gMyService.getMyData();
+  }
+
   @Listen(MyCustomEvent)
-  public handleMyCustomEvent(payload: MyCustomEvent): void {
+  public async handleMyCustomEvent(payload: MyCustomEvent): Promise<void> {
     console.log('EVENT TRIGGERED', payload);
   }
 }
