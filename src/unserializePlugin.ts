@@ -1,5 +1,5 @@
 // @ts-ignore
-import { initializeContainer } from '<%= options.coreModule %>';
+import { initializeContainer, StateSerializer } from '<%= options.coreModule %>';
 // @ts-ignore
 import container from '<%= options.containerPath %>';
 
@@ -10,5 +10,9 @@ export default function clientReadyPlugin() {
   if (process.server) {
     return;
   }
-  setTimeout(() => initializeContainer(container), 0);
+  setTimeout(() => {
+    initializeContainer(container);
+    const stateSerializer = container.get(StateSerializer);
+    stateSerializer.unserialize(container, stateSerializer.getSerializedState());
+  }, 0);
 }
