@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ioc",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Nuxt IOC implementation",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
