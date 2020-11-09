@@ -14,17 +14,24 @@
     {{ someClassMethod2() }}
 
     <button @click="updateProp">Update number</button>
+
+    <br /><br />
+    <MySecondComponent />
   </div>
 </template>
 
 <script lang="ts">
-import { Injectable, BaseComponent, factory, Prop, Meta, Inject, Events, Listen } from '../../../../../';
+import { Injectable, BaseComponent, factory, Prop, Meta, Inject, Events, Listen, Components } from '../../../../../';
 import MyService from '../Service/MyService';
 import { MetaInfo } from 'vue-meta';
 import MyCustomEvent from '../Event/MyCustomEvent';
+import MySecondComponent from '../Component/MySecondComponent.vue';
 
 @Injectable()
-export class AnyComponent extends BaseComponent {
+@Components({
+  MySecondComponent,
+})
+export class MyComponent extends BaseComponent {
   @Inject(Events)
   private gEvents: Events;
 
@@ -80,5 +87,5 @@ export class AnyComponent extends BaseComponent {
   }
 }
 
-export default factory(AnyComponent);
+export default factory(MyComponent);
 </script>

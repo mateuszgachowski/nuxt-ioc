@@ -472,10 +472,6 @@ function generateId(): string {
   return `${++lastId % 0xf000000}`;
 }
 
-function isSsrHydration(vm: any) {
-  return vm.$vnode && vm.$vnode.elm && vm.$vnode.elm.dataset && vm.$vnode.elm.dataset.fetchKey;
-}
-
 /**
  * Factory function for Vue component. It accepts component class instance with properties,
  * methods, getters, setters and decorators and turns it into raw vue component literal by
@@ -514,6 +510,9 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
         await instance.$serverPrefetch();
       }
 
+      // Remove the last added fetch by nuxt serverPrefetch
+      this.$ssrContext.nuxt.fetch.pop();
+
       // save component unique ID in vnode to make it appear on final HTML
       // so we can identify it on frontend later
       if (this.$vnode) {
@@ -551,20 +550,6 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       const classInstance = this.__instance;
 
       dataObject = collectData(classInstance);
-
-      if (process.client && isSsrHydration(this)) {
-        this._fetchKey = Number(this.$vnode.elm.dataset.fetchKey);
-
-        const nuxtState = (window as any).__NUXT__;
-        const data = nuxtState.fetch[this._fetchKey];
-        const mergedInstance = _merge(instance, data);
-
-        Object.getOwnPropertyNames(mergedInstance)
-          .filter((key) => !['$vue'].includes(key))
-          .forEach((key) => {
-            nuxtState.fetch[this._fetchKey][key] = mergedInstance[key];
-          });
-      }
 
       // prepare class for decorator usage
       initializeDecorators(classInstance, container);

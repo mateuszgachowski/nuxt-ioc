@@ -21,7 +21,6 @@ export default function ssrReadyMiddleware(context: Context) {
     const events = container.get(Events);
     await events.trigger(BeforeFrontRenderEvent);
     const initialState = stateSerializer.serialize(container);
-
     nuxtState.iocState = initialState;
   });
 }

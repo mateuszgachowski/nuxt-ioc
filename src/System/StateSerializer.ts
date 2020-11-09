@@ -164,7 +164,7 @@ export class StateSerializer {
    * @returns raw state
    */
   public retrieveState(): ISerializedState {
-    return (window as any).__NUXT__;
+    return (window as any).__NUXT__.iocState;
   }
 
   /**
