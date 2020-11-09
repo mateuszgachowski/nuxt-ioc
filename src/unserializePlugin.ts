@@ -10,9 +10,8 @@ export default function clientReadyPlugin() {
   if (process.server) {
     return;
   }
-  setTimeout(() => {
-    initializeContainer(container);
-    const stateSerializer = container.get(StateSerializer);
-    stateSerializer.unserialize(container, stateSerializer.getSerializedState());
-  }, 0);
+
+  initializeContainer(container);
+  const stateSerializer = container.get(StateSerializer);
+  stateSerializer.unserialize(container, stateSerializer.getSerializedState());
 }
