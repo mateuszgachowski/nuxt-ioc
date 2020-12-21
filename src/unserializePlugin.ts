@@ -1,7 +1,8 @@
+import Vue from 'vue';
 // @ts-ignore
 import { initializeContainer, StateSerializer } from '<%= options.coreModule %>';
 // @ts-ignore
-import container from '<%= options.containerPath %>';
+import appContainer from '<%= options.containerPath %>';
 
 /**
  * This plugin is for client side unserialization (IOC)
@@ -10,9 +11,20 @@ export default function clientReadyPlugin() {
   if (process.server) {
     return;
   }
-  setTimeout(() => {
-    initializeContainer(container);
-    const stateSerializer = container.get(StateSerializer);
-    stateSerializer.unserialize(container, stateSerializer.getSerializedState());
-  }, 0);
+
+  let container;
+
+  if (typeof appContainer === 'function') {
+    container = appContainer();
+  } else {
+    container = appContainer;
+  }
+
+  // Initialize container
+  initializeContainer(container);
+
+  Vue.prototype.__container = container;
+
+  const stateSerializer = container.get(StateSerializer);
+  stateSerializer.unserialize(container, stateSerializer.getSerializedState());
 }
