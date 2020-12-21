@@ -3,18 +3,22 @@ import MyService from './Domain/MyDomain/Service/MyService';
 import MyRepository from './Domain/MyDomain/Repository/MyRepository';
 import MySecondService from './Domain/MyDomain/Service/MySecondService';
 
-const container = new Container();
-container.bindInstance(Container, container);
+function createContainer() {
+  const container = new Container();
+  container.bindInstance(Container, container);
 
-// System dependencies
-container.bind(Events);
-container.bind(StateSerializer);
+  // System dependencies
+  container.bind(Events);
+  container.bind(StateSerializer);
 
-// Application dependencies
-container.bind(MyService);
-container.bind(MySecondService);
+  // Application dependencies
+  container.bind(MyService);
+  container.bind(MySecondService);
 
-// Repositories
-container.bind(MyRepository);
+  // Repositories
+  container.bind(MyRepository);
 
-export default container;
+  return container;
+}
+
+export default createContainer;
