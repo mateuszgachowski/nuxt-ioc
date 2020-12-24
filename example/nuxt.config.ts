@@ -12,7 +12,7 @@ module.exports = {
   buildDir: resolve(__dirname, '.nuxt'),
   srcDir: __dirname,
   router: {
-    middleware: [],
+    middleware: ['redirect'],
   },
-  modules: ['~/../../'],
+  modules: ['~/..'],
 };

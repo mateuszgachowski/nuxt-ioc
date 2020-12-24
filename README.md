@@ -40,3 +40,17 @@ Please refer to our [documentation](https://mateuszgachowski.github.io/nuxt-ioc/
   export default factory(MyComponent);
 </script>
 ```
+
+## Local Test
+
+If you want test our example locally, you need change coreModule ind the index.ts
+
+```javascript
+const options = {
+  // @ts-ignore
+  containerPath: '~/Application/container',
+  coreModule: '../../',
+  // coreModule: 'nuxt-ioc',
+  ...moduleOptions,
+};
+```
