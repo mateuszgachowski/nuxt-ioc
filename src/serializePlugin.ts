@@ -1,8 +1,14 @@
 import 'reflect-metadata';
 import Vue from 'vue';
 import { Context } from '@nuxt/types';
-// @ts-ignore
-import { Events, StateSerializer, BeforeFrontRenderEvent, initializeContainer } from '<%= options.coreModule %>';
+import {
+  Events,
+  StateSerializer,
+  BeforeFrontRenderEvent,
+  initializeContainer,
+  Container,
+  // @ts-ignore
+} from '<%= options.coreModule %>';
 // @ts-ignore
 import appContainer from '<%= options.containerPath %>';
 
@@ -14,15 +20,19 @@ export default function ssrReadyMiddleware(context: Context) {
     return;
   }
 
+  let container: Container;
+
+  if (typeof appContainer === 'function') {
+    container = appContainer();
+  } else {
+    container = appContainer;
+  }
+
+  Vue.prototype.__container = container;
+
+  (context as any).req.__contianer = container;
+
   context.beforeNuxtRender(async ({ nuxtState }) => {
-    let container;
-
-    if (typeof appContainer === 'function') {
-      container = appContainer();
-    } else {
-      container = appContainer;
-    }
-
     // Initialize container
     initializeContainer(container);
 
@@ -31,9 +41,5 @@ export default function ssrReadyMiddleware(context: Context) {
     await events.trigger(BeforeFrontRenderEvent);
     const initialState = stateSerializer.serialize(container);
     nuxtState.iocState = initialState;
-
-    Vue.prototype.__container = container;
-
-    (context as any).req.__contianer = container;
   });
 }
