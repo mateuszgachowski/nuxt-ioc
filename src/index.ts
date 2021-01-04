@@ -38,7 +38,7 @@ export default function NuxtIocModule(this: IModuleContext, moduleOptions: IModu
   });
 
   (this as any).nuxt.hook('render:routeDone', (_: any, __: any, context: Context) => {
-    const container = (context.req as any).__contianer;
+    const container = (context.req as any).__container;
     if (container) {
       destroyContainer(container);
     }

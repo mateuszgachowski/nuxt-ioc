@@ -30,7 +30,7 @@ export default function ssrReadyMiddleware(context: Context) {
 
   Vue.prototype.__container = container;
 
-  (context as any).req.__contianer = container;
+  (context as any).req.__container = container;
 
   context.beforeNuxtRender(async ({ nuxtState }) => {
     // Initialize container
