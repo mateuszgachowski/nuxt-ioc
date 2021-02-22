@@ -298,6 +298,13 @@ export class BaseComponent {
   }
 
   /**
+   * Returns Vue instance
+   */
+  public get vue(): Vue {
+    return this.$vue;
+  }
+
+  /**
    * Returns array containing this component child components.
    * @return {Array} BaseComponent
    */
@@ -370,7 +377,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       if ($internalHooks.includes(internalHook)) {
         // simply save the hook as a function
         options[internalHook] = function hook(this: any, ...args: any[]) {
-          if (!this) {
+          if (!this || !this.__instance) {
             return proto[key].call(null, ...args);
           }
           // call the function, passing our component class as "this" instead of Vue instance
@@ -387,8 +394,7 @@ function extractMethodsAndProperties(proto: any, __options: any): Record<string,
       // rebind this to our component class in place of real Vue instance
       if (typeof descriptor.value === 'function') {
         const method = function methodCode(this: any, ...args: any[]): any {
-          const instance = this.__instance;
-          return instance[key].call(instance, ...args);
+          return this.__instance[key].call(this.__instance, ...args);
         };
         // save magical method to Vue options object
         (options.methods || (options.methods = {}))[key] = method;
@@ -566,6 +572,8 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
     },
 
     beforeDestroy(this: any) {
+      const container: Container = this.$root.__container || this.$root._provided.__container;
+
       // get class instance from vue component
       const instance = this.__instance;
 
@@ -575,7 +583,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       }
 
       // destroy decorators
-      destroyDecorators(instance, this.$root.__container);
+      destroyDecorators(instance, container);
     },
 
     /**

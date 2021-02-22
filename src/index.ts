@@ -1,6 +1,4 @@
-import { Context } from '@nuxt/types';
 import { resolve } from 'path';
-import { destroyContainer } from './System/Decorators';
 export * from './System/Inject';
 export * from './System/Injectable';
 export * from './System/Container';
@@ -35,13 +33,6 @@ export default function NuxtIocModule(this: IModuleContext, moduleOptions: IModu
   this.addPlugin({
     src: resolve(__dirname, 'serializePlugin.js'),
     options,
-  });
-
-  (this as any).nuxt.hook('render:routeDone', (_: any, __: any, context: Context) => {
-    const container = (context.req as any).__container;
-    if (container) {
-      destroyContainer(container);
-    }
   });
 }
 
