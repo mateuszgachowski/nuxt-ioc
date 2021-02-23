@@ -378,11 +378,13 @@ describe('[Framework][Vue] ComponentUtil', () => {
     expect(spyOnResult).toBeCalledWith('serverPrefetch');
   });
 
-  xit('should unserialize service on front', () => {
+  it('should unserialize service on front', () => {
+    (process as any).client = true;
     const stateSerializer = container.get(StateSerializer);
     const spyOn = jest.spyOn(stateSerializer, 'unserializeService');
     (target as any).beforeCreate.call(MOCK_INSTANCE);
 
     expect(spyOn).toHaveBeenCalled();
+    (process as any).client = false;
   });
 });

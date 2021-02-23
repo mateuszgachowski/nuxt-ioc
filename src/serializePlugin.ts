@@ -7,6 +7,7 @@ import {
   BeforeFrontRenderEvent,
   initializeContainer,
   Container,
+  destroyContainer,
   // @ts-ignore
 } from '<%= options.coreModule %>';
 // @ts-ignore
@@ -28,18 +29,24 @@ export default function ssrReadyMiddleware(context: Context) {
     container = appContainer;
   }
 
+  // Initialize container
+  initializeContainer(container);
+
   Vue.prototype.__container = container;
 
   (context as any).req.__container = container;
 
   context.beforeNuxtRender(async ({ nuxtState }) => {
-    // Initialize container
-    initializeContainer(container);
-
     const stateSerializer = container.get(StateSerializer);
     const events = container.get(Events);
     await events.trigger(BeforeFrontRenderEvent);
     const initialState = stateSerializer.serialize(container);
     nuxtState.iocState = initialState;
+
+    // Fixes memory leak as some decorators were registering
+    // after container destroyed
+    // on event loop everything seems to be working fine
+    // (tested on 1000req / s / 5 tries)
+    setTimeout(() => destroyContainer(container), 0);
   });
 }

@@ -14,7 +14,9 @@
     "build": "rimraf lib && tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "example": "nuxt example -c nuxt.config.ts"
+    "example": "nuxt example -c nuxt.config.ts",
+    "example-build": "nuxt build example -c nuxt.config.ts",
+    "example-start-debug": "node --inspect node_modules/.bin/nuxt start example"
   },
   "files": [
     "README.md",
@@ -40,13 +42,12 @@
   "devDependencies": {
     "@nuxt/types": "2.14.3",
     "@nuxt/typescript-build": "2.0.2",
-    "@types/inversify": "2.0.33",
     "@types/jest": "26.0.10",
     "@types/lodash": "4.14.165",
     "@types/node": "14.6.0",
     "@vue/test-utils": "1.1.1",
     "babel-core": "6.26.3",
-    "inversify": "5.0.1",
+    "inversify": "5.0.5",
     "jest": "26.4.2",
     "lodash": "4.17.20",
     "nuxt": "2.13.2",
