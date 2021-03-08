@@ -169,7 +169,7 @@ const mockedContainer = new Container();
 
 const MOCK_INSTANCE = {
   $root: {
-    __container: mockedContainer,
+    $__container: mockedContainer,
   },
   $refs: {
     form: 'form',
@@ -205,7 +205,7 @@ describe('[Framework][Vue] ComponentUtil', () => {
     container.resolve = jest.fn((classType) => new classType());
 
     // assign container to vue "root instance"
-    MOCK_INSTANCE.$root.__container = container;
+    MOCK_INSTANCE.$root.$__container = container;
     target = getWrapper();
   });
 

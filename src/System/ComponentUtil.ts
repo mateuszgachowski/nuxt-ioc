@@ -445,7 +445,7 @@ function collectData(instance: any): Record<string, any> {
 
   // iterate over instance properties, filtering out blacklisted ones
   Object.getOwnPropertyNames(instance)
-    .filter((key) => !blacklist.includes(key))
+    .filter((key) => blacklist.indexOf(key) === -1)
     .forEach((key) => {
       // get initial value and store it in result object
       const initialValue: any = instance[key];
@@ -510,14 +510,23 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
      * @param this this is real Vue instance, passed by framework
      */
     async serverPrefetch(this: any): Promise<void> {
-      const instance = this.__instance;
+
       // call $serverPrefetch() hook if it exists on component
-      if (instance.$serverPrefetch) {
-        await instance.$serverPrefetch();
+      if (this.__instance.$serverPrefetch) {
+        await this.__instance.$serverPrefetch();
       }
 
-      // Remove the last added fetch by nuxt serverPrefetch
-      this.$ssrContext.nuxt.fetch.pop();
+      if (this.$ssrContext.nuxt.fetch) {       
+        // Remove fetch state (Nuxt 2.13.2)
+        if (Array.isArray(this.$ssrContext.nuxt.fetch)) {
+          // Remove the last added fetch by nuxt serverPrefetch
+          this.$ssrContext.nuxt.fetch.pop();
+        } else if (typeof this.$ssrContext.nuxt.fetch === 'object') {
+          // Remove fetch state (Nuxt 2.15.2)
+          delete this.$ssrContext.nuxt.fetch[this.$vnode.context._fetchKey];
+        }
+      }
+      
 
       // save component unique ID in vnode to make it appear on final HTML
       // so we can identify it on frontend later
@@ -542,18 +551,15 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       // IOC container is always saved in Vue root component; here we are going to
       // fetch the container and use it to create instance of our class
 
-      const container: Container = this.$root.__container || this.$root._provided.__container;
+      const container: Container = this.$root.$__container || this.$root._provided.$__container;
 
       // save real vue instance as $vue property in class instance (see BaseComponent class)
-      const instance = container.resolve(classType) as any;
+      const classInstance = container.resolve(classType) as any;
 
-      instance.$vue = this;
+      classInstance.$vue = this;
 
       // save our class component instance as __instance field in real Vue component
-      this.__instance = instance;
-
-      // create instance of class component using IOC container to make injects, etc. work
-      const classInstance = this.__instance;
+      this.__instance = classInstance;
 
       dataObject = collectData(classInstance);
 
@@ -572,8 +578,6 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
     },
 
     beforeDestroy(this: any) {
-      const container: Container = this.$root.__container || this.$root._provided.__container;
-
       // get class instance from vue component
       const instance = this.__instance;
 
@@ -583,7 +587,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
       }
 
       // destroy decorators
-      destroyDecorators(instance, container);
+      destroyDecorators(instance, this.$root.$__container);
     },
 
     /**

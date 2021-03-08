@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/mateuszgachowski/nuxt-ioc#readme",
   "devDependencies": {
+    "@babel/preset-env": "7.12.17",
     "@nuxt/types": "2.14.3",
     "@nuxt/typescript-build": "2.0.2",
     "@types/jest": "26.0.10",
@@ -50,7 +51,7 @@
     "inversify": "5.0.5",
     "jest": "26.4.2",
     "lodash": "4.17.20",
-    "nuxt": "2.13.2",
+    "nuxt": "2.15.2",
     "prettier": "2.1.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
