@@ -523,7 +523,7 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
           this.$ssrContext.nuxt.fetch.pop();
         } else if (typeof this.$ssrContext.nuxt.fetch === 'object') {
           // Remove fetch state (Nuxt 2.15.2)
-          this.$ssrContext.nuxt.fetch[this.$vnode.context._fetchKey] = undefined;
+          delete this.$ssrContext.nuxt.fetch[this.$vnode.context._fetchKey];
         }
       }
       
