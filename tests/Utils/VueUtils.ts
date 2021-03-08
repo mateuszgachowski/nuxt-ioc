@@ -16,7 +16,7 @@ export function createWrapperFactory(Component: VueConstructor<any>, container: 
   return (options?: ThisTypedShallowMountOptions<any>) =>
     shallowMount(Component as any, {
       provide: {
-        __container: container,
+        $__container: container,
       },
       ...options,
     });

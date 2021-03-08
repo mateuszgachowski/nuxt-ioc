@@ -23,7 +23,7 @@ export default function clientReadyPlugin() {
   // Initialize container
   initializeContainer(container);
 
-  Vue.prototype.__container = container;
+  Vue.prototype.$__container = container;
 
   const stateSerializer = container.get(StateSerializer);
   stateSerializer.unserialize(container, stateSerializer.getSerializedState());

@@ -16,7 +16,7 @@ import appContainer from '<%= options.containerPath %>';
 /**
  * This middleware serializes state only on backend side (IOC)
  */
-export default function ssrReadyMiddleware(context: Context) {
+export default function ssrReadyMiddleware(this: any, context: Context, inject: Function) {
   if (process.client) {
     return;
   }
@@ -28,13 +28,14 @@ export default function ssrReadyMiddleware(context: Context) {
   } else {
     container = appContainer;
   }
+  
+  const req = (context as any).req
+  req.__container = container;
+
+  inject('__container', container)
 
   // Initialize container
   initializeContainer(container);
-
-  Vue.prototype.__container = container;
-
-  (context as any).req.__container = container;
 
   context.beforeNuxtRender(async ({ nuxtState }) => {
     const stateSerializer = container.get(StateSerializer);
@@ -42,11 +43,17 @@ export default function ssrReadyMiddleware(context: Context) {
     await events.trigger(BeforeFrontRenderEvent);
     const initialState = stateSerializer.serialize(container);
     nuxtState.iocState = initialState;
-
-    // Fixes memory leak as some decorators were registering
-    // after container destroyed
-    // on event loop everything seems to be working fine
-    // (tested on 1000req / s / 5 tries)
-    setTimeout(() => destroyContainer(container), 0);
   });
+
+  if (req && req.on) {
+    req.on('end', () => {
+      destroyContainer(container);
+      req.__container = undefined;
+    })
+
+    req.on('error', (err: any) => {
+      destroyContainer(container);
+      req.__container = undefined;
+    })
+  }
 }
