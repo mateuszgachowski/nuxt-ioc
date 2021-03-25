@@ -459,6 +459,7 @@ function collectData(instance: any): Record<string, any> {
         get: () => resultObject[key],
         set: (value: any) => {
           resultObject[key] = value;
+          instance.$vue[key] = resultObject[key];
         },
       });
     });
@@ -510,13 +511,12 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
      * @param this this is real Vue instance, passed by framework
      */
     async serverPrefetch(this: any): Promise<void> {
-
       // call $serverPrefetch() hook if it exists on component
       if (this.__instance.$serverPrefetch) {
         await this.__instance.$serverPrefetch();
       }
 
-      if (this.$ssrContext.nuxt.fetch) {       
+      if (this.$ssrContext.nuxt.fetch) {
         // Remove fetch state (Nuxt 2.13.2)
         if (Array.isArray(this.$ssrContext.nuxt.fetch)) {
           // Remove the last added fetch by nuxt serverPrefetch
@@ -526,7 +526,6 @@ export function factory(target: typeof BaseComponent): ComponentOptions<any> {
           delete this.$ssrContext.nuxt.fetch[this.$vnode.context._fetchKey];
         }
       }
-      
 
       // save component unique ID in vnode to make it appear on final HTML
       // so we can identify it on frontend later
