@@ -28,11 +28,11 @@ export default function ssrReadyMiddleware(this: any, context: Context, inject: 
   } else {
     container = appContainer;
   }
-  
-  const req = (context as any).req
-  req.__container = container;
 
-  inject('__container', container)
+  const req = (context as any).req;
+  req.$__container = container;
+
+  inject('__container', container);
 
   // Initialize container
   initializeContainer(container);
@@ -48,12 +48,12 @@ export default function ssrReadyMiddleware(this: any, context: Context, inject: 
   if (req && req.on) {
     req.on('end', () => {
       destroyContainer(container);
-      req.__container = undefined;
-    })
+      req.$__container = undefined;
+    });
 
     req.on('error', (err: any) => {
       destroyContainer(container);
-      req.__container = undefined;
-    })
+      req.$__container = undefined;
+    });
   }
 }
