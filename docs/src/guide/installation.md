@@ -60,11 +60,17 @@ So, lets create the required Application structure:
 The file `container.ts` must export a new container instance, so its content looks like this:
 
 ```ts
-import { Container } from 'nuxt-ioc';
+import { Container, Events, StateSerializer } from 'nuxt-ioc';
 import MyService from './Domain/MyService';
 
 const container = new Container();
+container.bindInstance(Container, container);
 
+// System dependencies
+container.bind(Events);
+container.bind(StateSerializer);
+
+// Application dependencies
 container.bind(MyService); // here we register our sample service
 
 export default container;
